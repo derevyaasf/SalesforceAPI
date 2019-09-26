@@ -6,7 +6,7 @@ pipeline {
         sh '''if which node >/dev/null; then
     node -version
 else
-sudo apt install nodejs
+apt-get --yes --force-yes install nodejs
     node -version
 fi
 
