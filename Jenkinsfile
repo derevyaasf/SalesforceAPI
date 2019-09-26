@@ -6,14 +6,14 @@ pipeline {
         sh '''if which node >/dev/null; then
     node -version
 else
-apt-get --yes --force-yes install nodejs
+sudo apt-get --yes --force-yes install nodejs
     node -version
 fi
 
 if which newman >/dev/null; then
     newman -version
 else
-    npm install -g newman
+    sudo npm install -g newman
     newman -version
 fi
 '''
