@@ -3,18 +3,27 @@ pipeline {
   stages {
     stage('Check installations') {
       steps {
-        sh '''if which node >/dev/null; then
-    node -version
+        sh '''if which nodejs >/dev/null; then
+    nodejs --version
+
 else
 sudo apt-get -y install nodejs
   #  node -version
-  echo Stage 1
+  echo Stage 1-1
+fi
+
+if which npm >/dev/null; then
+    npm --version
+else
+    sudo apt-get -y install npm
+  
+    echo Stage 2-1
 fi
 
 if which newman >/dev/null; then
-    newman -version
+    newman --version
 else
-    sudo npm install -g newman
+    npm install -g newman
     # newman -version
     echo Stage 2
 fi
