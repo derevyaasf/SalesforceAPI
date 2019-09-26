@@ -16,7 +16,7 @@ else
 fi
 
 if which newman >/dev/null; then
-    newman --version
+    which newman
 else
    sudo npm install -g newman
     # newman -version
