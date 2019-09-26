@@ -23,7 +23,7 @@ fi
 if which newman >/dev/null; then
     newman --version
 else
-    npm install -g newman
+   sudo npm install -g newman
     # newman -version
     echo Stage 2
 fi
