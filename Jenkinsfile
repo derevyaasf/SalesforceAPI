@@ -27,6 +27,7 @@ if which newman >/dev/null; then
     which newman
 else
    sudo npm install -g newman
+   sudo npm install -g newman-reporter-htmlextra
     # newman -version
     echo Stage 2
 fi
