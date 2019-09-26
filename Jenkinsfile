@@ -6,7 +6,8 @@ pipeline {
         sh '''if which nodejs >/dev/null; then
     nodejs --version
 else
-sudo apt-get -y install nodejs
+sudo apt-get -y install nodejs-legacy
+# sudo apt-get -y install nodejs
 fi
 
 if which npm >/dev/null; then
