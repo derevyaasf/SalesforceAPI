@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "1aa36fdf-858a-4282-b79a-5f7f4c72b6c2",
 		"name": "API_Salesforce_Test",
-		"description": "rvgarver@yahoo.com",
+		"description": "qagroup.api@gmail.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -49,7 +49,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Header/><Body><login xmlns=\"urn:partner.soap.sforce.com\"><username>rvgarver@yahoo.com</username><password>Qazwsx125!</password></login></Body></Envelope>"
+									"raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Header/><Body><login xmlns=\"urn:partner.soap.sforce.com\"><username>qagroup.api@gmail.com</username><password>Qazwsx123!</password></login></Body></Envelope>"
 								},
 								"url": {
 									"raw": "https://login.salesforce.com/services/Soap/u/41.0",
