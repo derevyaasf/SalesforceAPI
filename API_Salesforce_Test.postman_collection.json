@@ -404,7 +404,7 @@
 							"response": []
 						},
 						{
-							"name": "Negative Cases Edit Account",
+							"name": "Negative Cases Edit Account test",
 							"event": [
 								{
 									"listen": "prerequest",
