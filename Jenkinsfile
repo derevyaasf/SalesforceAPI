@@ -39,7 +39,7 @@ fi
       steps {
         sh '''pwd
         ls
-        newman run API_Salesforce_Test.postman_collection.json -e API_Salesforce_Test.postman_environment.json
+        newman run API_Salesforce_Test.postman_collection.json -e API_Salesforce_Test.postman_environment.json -r htmlextra
 '''
       }
     }
