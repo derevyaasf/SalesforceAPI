@@ -47,7 +47,7 @@ fi
   }
   post {
         always {
-            archiveArtifacts artifacts: '/var/lib/jenkins/workspace/test/newman/*.html', fingerprint: true
+            archiveArtifacts artifacts: 'newman/*.html', fingerprint: true
             
         }
     }
