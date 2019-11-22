@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "2aa36fdf-858a-4282-b79a-5f7f4c72b6c2",
+		"_postman_id": "1aa36fdf-858a-4282-b79a-5f7f4c72b6c2",
 		"name": "API_Salesforce_Test",
-		"description": "qagroup.api@gmail.com",
+		"description": "rvgarver@yahoo.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -20,16 +20,13 @@
 									"script": {
 										"id": "92d20732-8a9f-4f9c-a165-a44388a64fe6",
 										"exec": [
-											"pm.environment.clear()",
-											"postman.clearEnvironmentVariable(\"accessToken\");",
 											"postman.clearEnvironmentVariable(\"sessionId\");",
 											"postman.clearEnvironmentVariable(\"url\");",
 											"var jsonObject = xml2Json(responseBody);",
 											"//console.log(jsonObject['soapenv:Envelope']['soapenv:Body'].loginResponse.result.sessionId);",
-											"postman.setEnvironmentVariable(\"accessToken\", \"Bearer \"+jsonObject['soapenv:Envelope']['soapenv:Body'].loginResponse.result.sessionId);",
 											"postman.setEnvironmentVariable(\"sessionId\", jsonObject['soapenv:Envelope']['soapenv:Body'].loginResponse.result.sessionId);",
 											"postman.setEnvironmentVariable(\"url\", \"\"+jsonObject['soapenv:Envelope']['soapenv:Body'].loginResponse.result.serverUrl.match(/^(.*?)\\.com/)[0]);",
-											"postman.setEnvironmentVariable(\"apiVersion\",\"41.0\")"
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -166,90 +163,13 @@
 					"name": "Account",
 					"item": [
 						{
-							"name": "getRequiredFieldNames",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "b446e1e5-d6da-4ff9-a38d-597b603ca333",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"var editLayoutSections = jsonData.layouts[0].editLayoutSections;",
-											"var sObjectRequiredFieldsNameArray = [];",
-											"",
-											"for (var i = 0; i < editLayoutSections.length; i++) {",
-											"    var layoutRows = editLayoutSections[i].layoutRows;",
-											"    for (var j = 0; j < layoutRows.length; j++) {",
-											"",
-											"        var layoutItems = layoutRows[j].layoutItems",
-											"        for (var a = 0; a < layoutItems.length; a++) {",
-											"",
-											"            if (layoutItems[a].required === true) {",
-											"                sObjectRequiredFieldsNameArray.push(layoutItems[a].layoutComponents[0].value);",
-											"            }",
-											"",
-											"        }",
-											"    }",
-											"",
-											"}",
-											"postman.setEnvironmentVariable(\"sObjectRequiredFieldsNameArray\", sObjectRequiredFieldsNameArray);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{sessionId}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{url}}/services/data/v{{apiVersion}}/sobjects/Opportunity/describe/layouts",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"services",
-										"data",
-										"v{{apiVersion}}",
-										"sobjects",
-										"Opportunity",
-										"describe",
-										"layouts"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Create Account",
 							"event": [
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4d02029c-4df2-4792-bbd5-2e933477f399",
+										"id": "d2f26966-3859-40de-bc0e-71cafb10e445",
 										"exec": [
-											"function makeName()",
-											"{",
-											"    var text = \"Account-\";",
-											"    var possible = \"0123456789\";",
-											" ",
-											"    for( var i=0; i < 5; i++ )",
-											"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
-											" ",
-											"    return text;",
-											"}",
-											" ",
-											"postman.setEnvironmentVariable('isoTime',(new Date()).toISOString());",
-											"postman.setEnvironmentVariable('randomName',makeName());",
 											""
 										],
 										"type": "text/javascript"
@@ -258,10 +178,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "22bbd480-0a30-419a-b865-14d6fd755e6d",
+										"id": "bdb438b5-1608-4417-ba07-e5b8e876a51f",
 										"exec": [
+											"",
 											"var jsonData = JSON.parse(responseBody);",
 											"var header = postman.getResponseHeader(\"Content-Type\");",
+											"",
+											"//Standart testts",
 											"",
 											"tests[\"Account should be successfully created \"] = jsonData.success === true;",
 											"",
@@ -271,17 +194,53 @@
 											"",
 											"tests[\"Header should contain 'application/json' value\"] = header === \"application/json;charset=UTF-8\";",
 											"",
-											"pm.test(\"Body should have 'id','success','errors' string\", function () {",
+											"pm.test(\"Body should have 'id' string\", function () {",
 											"    pm.expect(pm.response.text()).to.include(\"id\");",
+											"   });",
+											"   ",
+											"pm.test(\"Body should have 'success' string\", function () {",
 											"    pm.expect(pm.response.text()).to.include(\"success\");",
-											"    pm.expect(pm.response.text()).to.include(\"errors\");",
-											"    ",
+											"});",
+											"",
+											"pm.test(\"Body should have 'errors' string\", function () {",
+											"      pm.expect(pm.response.text()).to.include(\"errors\");",
 											"});",
 											"",
 											"pm.test(\"Response time should be less than 3000ms\", function () {",
 											"    pm.expect(pm.response.responseTime).to.be.below(3000);",
 											"});",
 											"",
+											"tests[\"success\"] = jsonData.success === true;",
+											"",
+											"//verify that JSON is valid",
+											"const shema ={",
+											"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",",
+											"  \"type\": \"object\",",
+											"  \"properties\": {",
+											"    \"id\": {",
+											"      \"type\": \"string\"",
+											"    },",
+											"    \"success\": {",
+											"      \"type\": \"boolean\"",
+											"    },",
+											"    \"errors\": {",
+											"      \"type\": \"array\",",
+											"      \"items\": {}",
+											"    }",
+											"  },",
+											"  \"required\": [",
+											"    \"id\",",
+											"    \"success\",",
+											"    \"errors\"",
+											"  ]",
+											"}",
+											"",
+											"pm.test('JSON is valid', () => {",
+											"       pm.expect(tv4.validate(jsonData, shema)).to.be.true",
+											"})",
+											" //console.log(\"Tiny validate error: \" + JSON.stringify(tv4.error));",
+											" ",
+											"//===============================================SET ENVIRONMENTS VARIABLES===============================================",
 											"postman.setEnvironmentVariable(\"accountId\", \"\"+jsonData.id);"
 										],
 										"type": "text/javascript"
@@ -308,7 +267,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"Name\" : \"{{randomName}}\"\n  \n}"
+									"raw": "{\n  \"Name\" : \"{{$randomCompanyName}}\"\n  \n}"
 								},
 								"url": {
 									"raw": "{{url}}/services/data/v{{apiVersion}}/sobjects/Account/",
@@ -404,7 +363,7 @@
 							"response": []
 						},
 						{
-							"name": "Negative Cases Edit Account test",
+							"name": "Negative Cases Edit Account",
 							"event": [
 								{
 									"listen": "prerequest",
@@ -510,28 +469,28 @@
 									"script": {
 										"id": "a5b05613-9db9-4181-9116-d0725e45ccaf",
 										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"var header = postman.getResponseHeader(\"Content-Type\");",
-											"var getAccountId = postman.getEnvironmentVariable(\"accountId\");",
-											"",
-											"tests[\"Account should have expected id \"] = jsonData.Id === getAccountId;",
-											"console.log(getAccountId);",
-											"",
-											"tests[\"Status code should be 200\"] = responseCode.code === 200;",
-											"",
-											"tests[\"Status code name should be 'Created'\"] = responseCode.name.has(\"OK\");",
-											"",
-											"tests[\"Header should contain 'application/json' value\"] = header === \"application/json;charset=UTF-8\";",
-											"",
-											"pm.test(\"Body should have 'id' field\", function () {",
-											"    pm.expect(pm.response.text()).to.include(\"Id\");",
-											"",
-											"});",
-											"",
-											"pm.test(\"Response time should be less than 3000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(3000);",
-											"});",
-											"",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var header = postman.getResponseHeader(\"Content-Type\");\r",
+											"var getAccountId = postman.getEnvironmentVariable(\"accountId\");\r",
+											"\r",
+											"tests[\"Account should have expected id \"] = jsonData.Id === getAccountId;\r",
+											"console.log(getAccountId);\r",
+											"\r",
+											"tests[\"Status code should be 200\"] = responseCode.code === 200;\r",
+											"\r",
+											"tests[\"Status code name should be 'Created'\"] = responseCode.name.has(\"OK\");\r",
+											"\r",
+											"tests[\"Header should contain 'application/json' value\"] = header === \"application/json;charset=UTF-8\";\r",
+											"\r",
+											"pm.test(\"Body should have 'id' field\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Id\");\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time should be less than 3000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});\r",
+											"\r",
 											""
 										],
 										"type": "text/javascript"
@@ -697,10 +656,8 @@
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"var header = postman.getResponseHeader(\"Content-Type\");",
-											"var getAccountId = postman.getEnvironmentVariable(\"accountId\");",
+											"var getContactId = postman.getEnvironmentVariable(\"ContactId\");",
 											"",
-											"tests[\"Account should have expected id \"] = jsonData.Id === getAccountId;",
-											"console.log(getAccountId);",
 											"",
 											"tests[\"Status code should be 200\"] = responseCode.code === 200;",
 											"",
@@ -742,7 +699,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{url}}/services/data/v{{apiVersion}}/sobjects/Account/{{accountId}}",
+									"raw": "{{url}}/services/data/v{{apiVersion}}/sobjects/Contact/",
 									"host": [
 										"{{url}}"
 									],
@@ -751,8 +708,89 @@
 										"data",
 										"v{{apiVersion}}",
 										"sobjects",
-										"Account",
-										"{{accountId}}"
+										"Contact",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Contact",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "1f84dc76-e370-48be-ab59-a832ce87d5c3",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "a5b05613-9db9-4181-9116-d0725e45ccaf",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"var header = postman.getResponseHeader(\"Content-Type\");",
+											"var getContactId = postman.getEnvironmentVariable(\"ContactId\");",
+											"",
+											"tests[\"Contact should have expected id \"] = jsonData.Id === getContactId;",
+											"console.log(getContactId);",
+											"",
+											"tests[\"Status code should be 200\"] = responseCode.code === 200;",
+											"",
+											"tests[\"Status code name should be 'Created'\"] = responseCode.name.has(\"OK\");",
+											"",
+											"tests[\"Header should contain 'application/json' value\"] = header === \"application/json;charset=UTF-8\";",
+											"",
+											"pm.test(\"Body should have 'id' field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Id\");",
+											"",
+											"});",
+											"",
+											"pm.test(\"Response time should be less than 3000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{sessionId}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/services/data/v{{apiVersion}}/sobjects/Contact/{{ContactId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"services",
+										"data",
+										"v{{apiVersion}}",
+										"sobjects",
+										"Contact",
+										"{{ContactId}}"
 									]
 								}
 							},
