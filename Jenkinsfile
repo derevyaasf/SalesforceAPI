@@ -42,6 +42,12 @@ fi
         newman run API_Salesforce_Test.postman_collection.json -e API_Salesforce_Test.postman_environment.json -r htmlextra
 '''
       }
+      post {
+        always {
+            archiveArtifacts artifacts: '/var/lib/jenkins/workspace/test/newman/*.html', fingerprint: true
+            
+        }
+    }
     }
   }
 }
