@@ -48,7 +48,7 @@ fi
   post {
         always {
             archiveArtifacts artifacts: 'newman/*.html', fingerprint: true
-            
+            timeout(time: 1, unit: 'MINUTES')
         }
     }
 }
